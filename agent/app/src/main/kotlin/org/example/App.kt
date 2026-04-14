@@ -3,13 +3,32 @@
  */
 package org.example
 
-class App {
-    val greeting: String
-        get() {
-            return "Hello World!"
-        }
-}
+import ai.koog.agents.core.agent.AIAgent
+import ai.koog.prompt.executor.llms.all.simpleOllamaAIExecutor
+import ai.koog.prompt.llm.LLMCapability
+import ai.koog.prompt.llm.LLMProvider
+import ai.koog.prompt.llm.LLModel
+import ai.koog.prompt.llm.OllamaModels
+import kotlinx.coroutines.runBlocking
 
-fun main() {
-    println(App().greeting)
+fun main() = runBlocking {
+    // Create an agent
+    val agent = AIAgent(
+        promptExecutor = simpleOllamaAIExecutor("http://ai1.home.arpa:11434"),
+        llmModel = LLModel(
+            LLMProvider.Ollama,
+            "glm-4.7-flash:latest",
+            listOf(
+                LLMCapability.Temperature,
+                LLMCapability.Schema.JSON.Basic,
+                LLMCapability.Tools,
+                LLMCapability.Vision.Image,
+            ),
+            4096,
+        )
+    )
+
+    // Run the agent
+    val result = agent.run("Can you write me a bash script to print out some random numbers")
+    println(result)
 }

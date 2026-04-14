@@ -3,9 +3,11 @@
 
 [versions]
 guava = "33.4.6-jre"
+koog = "0.6.2"
 
 [libraries]
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
+koog = { module = "ai.koog:koog-agents", version.ref = "koog" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "2.3.10" }
